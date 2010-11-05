@@ -88,7 +88,7 @@ Kick Django off something like this ::
     >>> 
 
 Look again and you should see a ``settingslocal.py``.  It's empty but a comment
-at the top to indicate you place your local settings here.
+at the top to indicate you place your local settings here. ::
 
     mysite/
         __init__.py
