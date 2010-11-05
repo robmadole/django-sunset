@@ -20,19 +20,21 @@ setup(name='django-sunset',
     description="Handle Django settings in a bit more organized fashion",
     long_description=README + '\n\n' + NEWS,
     classifiers=[
-      # Get strings from http://pypi.python.org/pypi?%3Aaction=list_classifiers
+        'Development Status :: 4 - Beta',
+        'Framework :: Django',
+        'Intended Audience :: Developers',
+        'Intended Audience :: System Administrators',
+        'License :: OSI Approved :: BSD License',
+        'Operating System :: OS Independent',
     ],
     keywords='django settings',
     author='Rob Madole',
     author_email='robmadole@gmail.com',
-    url='http://github.com/robmadole',
+    url='http://github.com/robmadole/django-sunset',
     license='BSD',
     packages=find_packages('src'),
     package_dir = {'': 'src'},include_package_data=True,
     zip_safe=False,
     install_requires=install_requires,
-    entry_points={
-        'console_scripts':
-            ['django-sunset=djangosunset:main']
-    }
+    entry_points={}
 )
