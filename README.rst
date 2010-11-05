@@ -32,7 +32,7 @@ will operate.
 If you are new to Django, `this tutorial
 <http://docs.djangoproject.com/en/dev/intro/tutorial01/>`_ can get you started.
 
-Let's start with this a new project ::
+Start with a new project (``django-admin.py startproject mysite``)::
 
     mysite/
         __init__.py
@@ -40,9 +40,6 @@ Let's start with this a new project ::
         settings.py
         urls.py
 
-Create an empty file called ``settingsdev.py`` ::
-
-    touch mysite/settingsdev.py
 
 Rename the ``settings.py`` file to ``settingsbase.py`` ::
 
@@ -50,7 +47,6 @@ Rename the ``settings.py`` file to ``settingsbase.py`` ::
         __init__.py
         manage.py
         settingsbase.py
-        settingsdev.py
         urls.py
 
 Let's find out what your current hostname is ::
@@ -73,17 +69,16 @@ Now create ``settings.py`` with the following contents ::
 
     from sunset.collection import *
     
-Now we should have this ::
+We should have this ::
 
     mysite/
         __init__.py
         manage.py
         settings.py
         settingsbase.py
-        settingsdev.py
         urls.py
 
-Ok, now kick Django off something like this ::
+Kick Django off something like this ::
 
     $ ./manage.py shell
     Python 2.7 (r27:82500, Aug 16 2010, 15:13:20) 
@@ -92,15 +87,14 @@ Ok, now kick Django off something like this ::
     (InteractiveConsole)
     >>> 
 
-Now look again, you should see a ``settingslocal.py``.  It's empty but a comment
-at the top to indicate you should do your overriding of settings here.
+Look again and you should see a ``settingslocal.py``.  It's empty but a comment
+at the top to indicate you place your local settings here.
 
     mysite/
         __init__.py
         manage.py
         settings.py
         settingsbase.py
-        settingsdev.py
         settingslocal.py
         urls.py
 
@@ -134,7 +128,8 @@ Run the Django shell again and inspect the value ::
     >>> print settings.DATABASES['default']['NAME']
     database.db
 
-Great, you have local settings now!
+Great, you have local settings now and you don't have to touch the main
+``settings.py`` file.
 
 Base your local settings on a template
 --------------------------------------
@@ -158,7 +153,16 @@ Edit ``settings.py`` with the following contents ::
 
     from sunset.collection import *
 
-And make the contents of ``settingsdev.py`` to this ::
+We are adding this ::
+
+    import settingsdev
+    api.collect(settingsdev)
+
+Create an empty file called ``settingsdev.py`` ::
+
+    touch settingsdev.py
+
+Make the contents of ``settingsdev.py`` to this ::
 
     DEBUG = True
 
@@ -175,7 +179,7 @@ And make the contents of ``settingsdev.py`` to this ::
 
 That works better, each developer will not have to repeat the same typing.
 
-Now remove your ``settingslocal.py`` so Django Sunset can recreate it for you.
+Remove your ``settingslocal.py`` so Django Sunset can recreate it for you.
 ::
 
     rm settingslocal.py
@@ -240,7 +244,7 @@ still situations where this isn't always the best method.
 
 For example, let's say one developer is responsible for setting up the Facebook
 API keys for the team.  She's gone into Facebook and spent the last half-hour
-making Applications and settings hostnames.
+making Applications and editing configurations.
 
 Instead of emailing everyone their keys, app id's and secrets she can create one
 module that houses them all.
@@ -298,3 +302,8 @@ where if any of the hostnames match the settings will be applied.
 The developer still has the opportunity to override the settings from the
 ``facebook`` module in their own ``settingslocal``.  The order in which API
 calls happen within the ``settings`` module is preserved.
+
+Questions and issues
+--------------------
+
+Please enter issues in `GitHub <https://github.com/robmadole/django-sunset/issues>`_ or you can email me directory robmadole@gmail.com.
