@@ -236,6 +236,17 @@ collection of settings if the hostname matches.
 
 Now you can edit the ``web01.py`` file and change whatever settings you like.
 
+As a bonus, it's easy to impersonate a deployed server locally.  Simply set your
+hostname as a deployment.
+
+::
+
+    api.roles(
+        #api.dev('rob-madoles-macbook-pro')
+        api.deployment('rob-madoles-macbook-pro', web01)
+        api.deployment('web01', web01)
+        )
+
 Using one module for a group of settings
 ----------------------------------------
 
