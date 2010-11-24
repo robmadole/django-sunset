@@ -1,3 +1,5 @@
+from __future__ import with_statement
+
 import os
 import shutil
 import unittest
@@ -5,6 +7,14 @@ import textwrap
 
 from sunset.api import _reset, BaseSettingsMissing, RolesNoMatch, hostname_like
 from sunset.roles import BaseRole
+
+# Backward compatible unittest 
+try: 
+    import unittest 
+    # skip was added in 2.7/3.1 
+    assert unittest.skip 
+except AttributeError: 
+    import unittest2 as unittest
 
 STANDARD_SETTINGS = ['TEMPLATE_DIRS', 'USE_L10N', 'MANAGERS', 'MEDIA_ROOT',
                      'SITE_ID', 'DATABASES', 'MIDDLEWARE_CLASSES',

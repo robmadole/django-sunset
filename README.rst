@@ -146,7 +146,7 @@ Edit ``settings.py`` with the following contents ::
     api.collect(settingsbase)
 
     import settingsdev
-    api.collect(settingsdev)
+    api.dev_template(settingsdev)
 
     api.roles(
         api.dev('rob-madoles-macbook-pro'))
@@ -156,7 +156,7 @@ Edit ``settings.py`` with the following contents ::
 We are adding this ::
 
     import settingsdev
-    api.collect(settingsdev)
+    api.dev_template(settingsdev)
 
 Create an empty file called ``settingsdev.py`` ::
 
@@ -219,7 +219,7 @@ Edit ``settings.py`` with the following contents ::
     api.collect(settingsbase)
 
     import settingsdev
-    api.collect(settingsdev)
+    api.dev_template(settingsdev)
 
     from deployments import web01
 

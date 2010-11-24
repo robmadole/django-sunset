@@ -1,3 +1,5 @@
+from __future__ import with_statement
+
 from os.path import isfile, dirname, join
 import inspect
 
@@ -47,7 +49,12 @@ class DevRole(BaseRole):
             self._create_local_settings(local_settings_path, self.dev_template_module)
 
         project = '.'.join(self.base_module.__name__.split('.')[0:-1])
-        module = __import__('%s.%s' % (project, self.local_module),
+
+        modulename = self.local_module
+        if project:
+            modulename = '%s.%s' % (project, self.local_module)
+
+        module = __import__(modulename,
             globals(), locals(), ['*'])
 
         return module
