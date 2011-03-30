@@ -58,7 +58,7 @@ Mine is ``rob-madoles-macbook-pro.local``.  Throughout the examples I'll use
 this, substitute your own where appropriate.
 
 Now create ``settings.py`` with the following contents ::
-    
+
     from sunset import api
 
     import settingsbase
@@ -68,7 +68,7 @@ Now create ``settings.py`` with the following contents ::
         api.dev('rob-madoles-macbook-pro'))
 
     from sunset.collection import *
-    
+
 We should have this ::
 
     mysite/
@@ -81,11 +81,11 @@ We should have this ::
 Kick Django off something like this ::
 
     $ ./manage.py shell
-    Python 2.7 (r27:82500, Aug 16 2010, 15:13:20) 
+    Python 2.7 (r27:82500, Aug 16 2010, 15:13:20)
     [GCC 4.2.1 (Apple Inc. build 5664)] on darwin
     Type "help", "copyright", "credits" or "license" for more information.
     (InteractiveConsole)
-    >>> 
+    >>>
 
 Look again and you should see a ``settingslocal.py``.  It's empty but a comment
 at the top to indicate you place your local settings here. ::
@@ -118,7 +118,7 @@ Edit ``settingslocal.py`` ::
 Run the Django shell again and inspect the value ::
 
     $ ./manage.py shell
-    Python 2.7 (r27:82500, Aug 16 2010, 15:13:20) 
+    Python 2.7 (r27:82500, Aug 16 2010, 15:13:20)
     [GCC 4.2.1 (Apple Inc. build 5664)] on darwin
     Type "help", "copyright", "credits" or "license" for more information.
     (InteractiveConsole)
@@ -139,7 +139,7 @@ team we have quite a few settings and a template would be nicer to start with
 instead of an empty file.
 
 Edit ``settings.py`` with the following contents ::
-    
+
     from sunset import api
 
     import settingsbase
@@ -187,7 +187,7 @@ Remove your ``settingslocal.py`` so Django Sunset can recreate it for you.
 And again load up the Django shell ::
 
     $ ./manage.py shell
-    Python 2.7 (r27:82500, Aug 16 2010, 15:13:20) 
+    Python 2.7 (r27:82500, Aug 16 2010, 15:13:20)
     [GCC 4.2.1 (Apple Inc. build 5664)] on darwin
     Type "help", "copyright", "credits" or "license" for more information.
     (InteractiveConsole)
@@ -212,7 +212,7 @@ Create a directory called ``deployments``  and a file called ``web01.py`` ::
     touch deploymnets/web01.py
 
 Edit ``settings.py`` with the following contents ::
-    
+
     from sunset import api
 
     import settingsbase
@@ -247,6 +247,32 @@ hostname as a deployment.
         api.deployment('web01', web01)
         )
 
+
+In the case that you have a deployment to the cloud and do not know the hostname
+that you code will be sittingin you can simply set the ignore_missing flag.
+
+::
+
+    from sunset import api
+
+    import settingsbase
+    api.collect(settingsbase)
+
+    import settingsdev
+    api.dev_template(settingsdev)
+
+    from deployments import web01
+    from delpoyments import cloud
+
+    api.collect(cloud)
+
+    api.roles(
+        api.dev('rob-madoles-macbook-pro'),
+        api.deployment('web01', web01),
+        ignore_missing=True)
+
+    from sunset.collection import *
+
 Using one module for a group of settings
 ----------------------------------------
 
@@ -261,7 +287,7 @@ Instead of emailing everyone their keys, app id's and secrets she can create one
 module that houses them all.
 
 Edit ``settings.py`` with the following contents ::
-    
+
     from sunset import api
 
     import settingsbase
@@ -305,7 +331,7 @@ Now let's create ``deployments/facebook.py`` with the following contents ::
         FACEBOOK_APP_ID = '8723849237428'
         FACEBOOK_APP_SECRET = '8ffa23jk4fa9f34af3498afhf4'
         FACEBOOK_API_KEY = '123h129318hf91uwhd1937g8163g817317gd817'
-    
+
 So now this module performs the hostname matching internally instead of relying
 on the roles.  Also notice how ``hostname_like`` can take multiple arguments
 where if any of the hostnames match the settings will be applied.

@@ -20,7 +20,7 @@ def _reset():
 
     for i in dir(collection):
         delattr(collection, i)
-    
+
 
 class BaseSettingsMissing(Exception):
     """
@@ -90,7 +90,7 @@ def dev_template(module):
     _dev_template_module = module
 
 
-def roles(*roles):
+def roles(*roles, **kwargs):
     """
     Takes a list of roles and populates the collection according to which roles
     match the hostname.
@@ -110,5 +110,6 @@ def roles(*roles):
             return node
 
     # Getting to here means we did not match any hosts
-    raise RolesNoMatch('We could not find any matches for hostname %s, you '
-        'probably need to add this host into your settings' % hostname)
+    if not kwargs.get('ignore_missing', False):
+        raise RolesNoMatch('We could not find any matches for hostname %s, you '
+            'probably need to add this host into your settings' % hostname)

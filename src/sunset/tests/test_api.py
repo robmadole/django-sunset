@@ -8,12 +8,12 @@ import textwrap
 from sunset.api import _reset, BaseSettingsMissing, RolesNoMatch, hostname_like
 from sunset.roles import BaseRole
 
-# Backward compatible unittest 
-try: 
-    import unittest 
-    # skip was added in 2.7/3.1 
-    assert unittest.skip 
-except AttributeError: 
+# Backward compatible unittest
+try:
+    import unittest
+    # skip was added in 2.7/3.1
+    assert unittest.skip
+except AttributeError:
     import unittest2 as unittest
 
 STANDARD_SETTINGS = ['TEMPLATE_DIRS', 'USE_L10N', 'MANAGERS', 'MEDIA_ROOT',
@@ -61,7 +61,7 @@ class ApiTest(unittest.TestCase):
             return plain_settings
 
         return project, get_settings
-        
+
     def make_settings(self, source):
         with open(os.path.join(self.project_path, 'settings.py'), 'w') as fh:
             fh.write(source)
@@ -226,14 +226,14 @@ class ApiTest(unittest.TestCase):
 
             from deployments import web01
             from deployments import facebook
-                                           
+
             api.collect(settingsbase)
             api.collect(facebook)
 
             api.dev_template(settingsdev)
 
             api.roles(
-                api.deployment('%s', web01))
+                api.deployment('%s', web01), ignore_missing=False)
 
             from sunset.collection import *
             """ % self.hostname()))
@@ -266,6 +266,34 @@ class ApiTest(unittest.TestCase):
 
         with self.assertRaises(RolesNoMatch) as ec:
             settings = self.current_settings
+
+    def test_roles_do_not_match_but_ignored(self):
+        self.make_settings(textwrap.dedent("""
+            from sunset import api
+
+            import settingsbase
+            import settingsdev
+
+            from deployments import cloud
+
+            api.collect(settingsbase)
+            api.collect(cloud)
+
+            api.dev_template(settingsdev)
+
+            roles = (
+                api.dev('hostname1-no-match'),
+                api.dev('hostname2-no-match'))
+
+            api.roles(ignore_missing=True, *roles)
+
+            from sunset.collection import *
+            """))
+
+        settings = self.current_settings
+
+        self.assertTrue('CLOUD_DEPLOY' in settings)
+        self.assertTrue(settings['CLOUD_DEPLOY'])
 
     def test_will_create_empty_settingslocal(self):
         self.make_settings(textwrap.dedent("""
