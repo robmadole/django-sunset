@@ -1,6 +1,13 @@
 News
 ====
 
+0.3
+---
+
+*Release data: 31-Mar-2011*
+
+* Added ignore_missing keyword argument, will not complain about a hostname missing from the roles (thanks Travis Chase supercodepoet)
+
 0.2
 ---
 
