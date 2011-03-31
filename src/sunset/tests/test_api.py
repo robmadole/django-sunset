@@ -281,11 +281,10 @@ class ApiTest(unittest.TestCase):
 
             api.dev_template(settingsdev)
 
-            roles = (
+            api.roles(
                 api.dev('hostname1-no-match'),
-                api.dev('hostname2-no-match'))
-
-            api.roles(ignore_missing=True, *roles)
+                api.dev('hostname2-no-match'),
+                ignore_missing=True)
 
             from sunset.collection import *
             """))

@@ -249,7 +249,7 @@ hostname as a deployment.
 
 
 In the case that you have a deployment to the cloud and do not know the hostname
-that you code will be sittingin you can simply set the ignore_missing flag.
+that you code will be sitting in you can simply set the ignore_missing flag.
 
 ::
 
